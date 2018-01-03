@@ -32,12 +32,12 @@ def angle_between(v1, v2):
     return np.arccos(np.clip(np.dot(u1, u2), -1.0, 1.0))
 
 def points_up(v):
-    return angle_between(v, gravity) >= overhang_rads
+    return angle_between(v, gravity) <= overhang_rads
 
 def exceeds_overhang(v):
     if all(map(lambda x: x == 0, v)):
         return False
-    return not points_up(v) or not points_up(-v)
+    return points_up(v) or points_up(-v)
 
 def is_on_build_plate(v):
     return scalar_isclose(np.dot(v, gravity), 0)
