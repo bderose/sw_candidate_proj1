@@ -1,5 +1,6 @@
 import unittest
 import interview
+import numpy as np
 
 class TestInterview(unittest.TestCase):
     def setUp(self):
@@ -16,29 +17,29 @@ class TestInterview(unittest.TestCase):
         self.assertFalse(interview.scalar_isclose(0, 0.0009))
         self.assertFalse(interview.scalar_isclose(0, 0.00099999))
 
-    def test_is_nearly_vertical(self):
-        self.assertTrue(interview.is_nearly_vertical([0, 0, 1]))
-        self.assertTrue(interview.is_nearly_vertical([0, 0, -1]))
-        self.assertTrue(interview.is_nearly_vertical([0.01, 0.01, -1]))
-        self.assertTrue(interview.is_nearly_vertical([0.01, 0.01, 1]))
 
-        self.assertFalse(interview.is_nearly_vertical([0, 0, 0]))
-        self.assertFalse(interview.is_nearly_vertical([1, 0, 0]))
-        self.assertFalse(interview.is_nearly_vertical([0, 1, 0]))
-        self.assertFalse(interview.is_nearly_vertical([1, 1, 0]))
-        
-    def test_is_on_build_surface(self):
-        self.assertTrue(interview.is_on_build_surface([0, 0, 0]))
-        self.assertTrue(interview.is_on_build_surface([0, 0, self.epsilon]))
-        self.assertTrue(interview.is_on_build_surface([self.epsilon, self.epsilon, self.epsilon]))
-        self.assertTrue(interview.is_on_build_surface([1, 0, 0]))
-        self.assertTrue(interview.is_on_build_surface([0, 1, 0]))
-        self.assertTrue(interview.is_on_build_surface([2, 1, 0]))
+    def test_exceeds_overhang(self):
+        self.assertTrue(interview.exceeds_overhang(np.array([0, 0, 1])))
+        self.assertTrue(interview.exceeds_overhang(np.array([0, 0, -1])))
+        self.assertTrue(interview.exceeds_overhang(np.array([0.01, 0.01, -1])))
+        self.assertTrue(interview.exceeds_overhang(np.array([0.01, 0.01, 1])))
 
-        self.assertFalse(interview.is_on_build_surface([0, 0, 1]))
-        self.assertFalse(interview.is_on_build_surface([0, 0, self.epsilon * 2]))
-        self.assertFalse(interview.is_on_build_surface([1, 1, 1]))
+        self.assertFalse(interview.exceeds_overhang(np.array([0, 0, 0])))
+        self.assertFalse(interview.exceeds_overhang(np.array([1, 0, 0])))
+        self.assertFalse(interview.exceeds_overhang(np.array([0, 1, 0])))
+        self.assertFalse(interview.exceeds_overhang(np.array([1, 1, 0])))
 
+    def test_is_on_build_plate(self):
+        self.assertTrue(interview.is_on_build_plate(np.array([0, 0, 0])))
+        self.assertTrue(interview.is_on_build_plate(np.array([0, 0, self.epsilon])))
+        self.assertTrue(interview.is_on_build_plate(np.array([self.epsilon, self.epsilon, self.epsilon])))
+        self.assertTrue(interview.is_on_build_plate(np.array([1, 0, 0])))
+        self.assertTrue(interview.is_on_build_plate(np.array([0, 1, 0])))
+        self.assertTrue(interview.is_on_build_plate(np.array([2, 1, 0])))
+
+        self.assertFalse(interview.is_on_build_plate(np.array([0, 0, 1])))
+        self.assertFalse(interview.is_on_build_plate(np.array([0, 0, self.epsilon * 2])))
+        self.assertFalse(interview.is_on_build_plate(np.array([1, 1, 1])))
 
 if __name__ == "__main__":
     unittest.main()

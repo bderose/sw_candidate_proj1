@@ -3,6 +3,11 @@ import numpy as np
 from matplotlib import pyplot
 import trimesh
 
+
+# hardcoded constants for testing
+gravity = np.array([0, 0, -1])
+overhang_rads = np.pi / 4
+
 def scalar_isclose(a, b):
     """
     Returns True if the scalar inputs (a and b) are within some epsilon (1e-8)
@@ -27,12 +32,12 @@ def angle_between(v1, v2):
     return np.arccos(np.clip(np.dot(u1, u2), -1.0, 1.0))
 
 def points_up(v):
-   return angle_between(v, gravity) >= overhang_rads
+    return angle_between(v, gravity) >= overhang_rads
 
 def exceeds_overhang(v):
     if all(map(lambda x: x == 0, v)):
         return False
-    return points_up(v) or points_up(-v)
+    return not points_up(v) or not points_up(-v)
 
 def is_on_build_plate(v):
     return scalar_isclose(np.dot(v, gravity), 0)
