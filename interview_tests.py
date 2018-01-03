@@ -17,7 +17,6 @@ class TestInterview(unittest.TestCase):
         self.assertFalse(interview.scalar_isclose(0, 0.0009))
         self.assertFalse(interview.scalar_isclose(0, 0.00099999))
 
-
     def test_exceeds_overhang(self):
         self.assertTrue(interview.exceeds_overhang(np.array([0, 0, 1])))
         self.assertTrue(interview.exceeds_overhang(np.array([0, 0, -1])))
